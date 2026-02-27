@@ -1,7 +1,14 @@
 const path = require('path')
+const fs = require('fs')
 const sqlite3 = require('sqlite3').verbose()
 
-const dbPath = path.join(__dirname, 'veo_tasks.db')
+const dataDir = process.env.RENDER ? '/opt/render/project/src/data' : __dirname
+
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true })
+}
+
+const dbPath = path.join(dataDir, 'veo_tasks.db')
 const db = new sqlite3.Database(dbPath)
 
 function initDb() {
